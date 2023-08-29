@@ -1,0 +1,35 @@
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.json.simple.JSONObject;
+
+public class IntegrationTestingJSONObject {
+
+    public static void main(String[] args) {
+        RestAssured.baseURI = "https://api.example.com";
+
+        // Fetch user details
+        Response getUserResponse = RestAssured.get("/users/1");
+        String name = getUserResponse.path("name");
+        String email = getUserResponse.path("email");
+
+        // Create a new user using fetched details
+        JSONObject requestBody = new JSONObject();
+        requestBody.put("name", name);
+        requestBody.put("email", email);
+
+        Response createUserResponse = RestAssured.given()
+            .contentType("application/json")
+            .body(requestBody.toJSONString())
+            .post("/users");
+
+        int createStatusCode = createUserResponse.statusCode();
+        String createName = createUserResponse.path("name");
+        String createEmail = createUserResponse.path("email");
+
+        if (createStatusCode == 201 && name.equals(createName) && email.equals(createEmail)) {
+            System.out.println("Create User with Fetched Details - Test Passed");
+        } else {
+            System.out.println("Create User with Fetched Details - Test Failed");
+        }
+    }
+}
