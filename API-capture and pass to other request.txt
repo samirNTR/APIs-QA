@@ -1,0 +1,28 @@
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.testng.annotations.Test;
+
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+
+public class CaptureAndPassValuesExample {
+
+    @Test
+    public void captureAndPassValues() {
+        // Step 1: Perform the First Request and Capture the Response
+        Response firstResponse = RestAssured.get("https://jsonplaceholder.typicode.com/posts/1");
+
+        // Step 2: Extract the User ID from the First Response
+        int userId = firstResponse.path("userId");
+
+        // Step 3: Pass the User ID to Another Request
+        given()
+            .pathParam("userId", userId)  // Pass the userId as a path parameter
+        .when()
+            .get("https://jsonplaceholder.typicode.com/users/{userId}")
+        .then()
+            .statusCode(200)
+            .body("name", equalTo("Leanne Graham"))
+            .body("email", equalTo("Sincere@april.biz"));
+    }
+}

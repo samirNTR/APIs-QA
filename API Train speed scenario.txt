@@ -1,0 +1,85 @@
+Implementing the test cases for a train speed scenario using RestAssured involves creating a test suite in Java and using RestAssured methods to send HTTP requests and perform assertions. Below, I'll provide Java code snippets for some of the test cases mentioned earlier. You can expand on these examples to cover the entire scenario:
+
+**Note:** These code snippets assume that you have set up your RestAssured environment and imported the necessary libraries.
+
+1. **Boundary Test Cases:**
+
+   - **Minimum Speed (1 km/hr):**
+
+     ```java
+     @Test
+     public void testMinimumSpeed() {
+         Response response = RestAssured.get("https://your-api-url.com/speed?value=1");
+         response.then()
+             .statusCode(200) // Assuming 200 is the expected status code for a successful response
+             .body("speed", equalTo(1)); // Assuming the response contains the speed field
+     }
+     ```
+
+   - **Maximum Speed (100 km/hr):**
+
+     ```java
+     @Test
+     public void testMaximumSpeed() {
+         Response response = RestAssured.get("https://your-api-url.com/speed?value=100");
+         response.then()
+             .statusCode(200)
+             .body("speed", equalTo(100));
+     }
+     ```
+
+2. **Invalid Speeds:**
+
+   - **Invalid Speed Below Minimum:**
+
+     ```java
+     @Test
+     public void testInvalidSpeedBelowMinimum() {
+         Response response = RestAssured.get("https://your-api-url.com/speed?value=0");
+         response.then()
+             .statusCode(400); // Assuming the API returns a 400 Bad Request for invalid input
+     }
+     ```
+
+   - **Invalid Speed Above Maximum:**
+
+     ```java
+     @Test
+     public void testInvalidSpeedAboveMaximum() {
+         Response response = RestAssured.get("https://your-api-url.com/speed?value=101");
+         response.then()
+             .statusCode(400);   //400 Bad request status code indicates that the server was unable to process the request due to         invalid information sent by the client. In other words, the client request needs modification
+     }
+     ```
+
+3. **Performance and Load Testing:**
+
+   - **Load Test:**
+
+     You can use a load testing tool (e.g., Apache JMeter) in combination with RestAssured to simulate concurrent requests with varying speeds and assess the API's performance.
+
+4. **Boundary Value Analysis:**
+
+   - **Just Below Minimum:**
+
+     ```java
+     @Test
+     public void testSpeedJustBelowMinimum() {
+         Response response = RestAssured.get("https://your-api-url.com/speed?value=0.9");
+         response.then()
+             .statusCode(400);
+     }
+     ```
+
+   - **Just Above Maximum:**
+
+     ```java
+     @Test
+     public void testSpeedJustAboveMaximum() {
+         Response response = RestAssured.get("https://your-api-url.com/speed?value=100.1");
+         response.then()
+             .statusCode(400);
+     }
+     ```
+
+These are just some of the test cases you can implement in RestAssured for the train speed scenario. To complete your test suite, you can follow a similar structure for the remaining test cases, including functional, negative, and security tests. Be sure to replace `"https://your-api-url.com/speed"` with the actual URL of the API you are testing. Additionally, adapt the assertions and expectations based on your API's response format and expected behavior.

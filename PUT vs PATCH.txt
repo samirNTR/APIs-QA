@@ -1,0 +1,13 @@
+If you send a **PUT** request instead of a **PATCH** request in a scenario where you want to update only a subset of fields within a resource (e.g., updating 50 out of 100 fields), the behavior and implications can vary depending on the server's implementation and how it handles PUT requests.
+
+Here are some common outcomes when using PUT in such a scenario:
+
+1. **Full Replacement:** By design, PUT requests are meant to replace the entire resource with the provided representation. If the server strictly adheres to the HTTP specification, it will replace the existing resource with the representation you provide in the PUT request.
+
+2. **Missing Fields:** If your PUT request includes only the 50 fields you want to update and omits the other 50 fields, the server may interpret this as an intention to set those omitted fields to null or their default values. However, this behavior depends on how the server is implemented.
+
+3. **Conflict or Validation Errors:** Some servers may perform validation checks and reject PUT requests that don't provide a complete representation of the resource, especially if required fields are missing or if there are business rules that need to be enforced.
+
+4. **Overwriting Existing Data:** If the PUT request does not include all 100 fields, you risk overwriting existing data on the server with potentially incomplete or incorrect data.
+
+In summary, sending a PUT request in a scenario where you want to update only a subset of fields within a resource can have unintended consequences, including the replacement of missing fields with null or default values or the overwriting of existing data. To perform partial updates efficiently and accurately, it's recommended to use a PATCH request, which is specifically designed for this purpose and is less likely to lead to unexpected behavior.
