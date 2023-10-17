@@ -9,7 +9,6 @@ import io.restassured.http.Headers;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 
-
 public class ValidateResponseHeader {
 //https://reqres.in/api/users/2
 
@@ -20,8 +19,8 @@ public class ValidateResponseHeader {
 		RequestSpecification requestSpec = RestAssured.given();
 		
 		//specify base uri
-		requestSpec.baseUri("https://reqres.in");
-		requestSpec.basePath("/api/users/2");
+		requestSpec.baseUri("https://reqres.in")
+		.basePath("/api/users/2");
 		
 		//create get request
 		Response response = requestSpec.get();
