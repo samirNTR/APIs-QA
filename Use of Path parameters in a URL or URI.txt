@@ -1,0 +1,27 @@
+Path parameters in a URL or URI are used to pass data directly within the path of the URL. They are often employed to specify variable parts of the URL, allowing clients to request specific resources or perform actions by providing values directly within the URL path. Here are some common uses of path parameters in URLs:
+
+1. **Resource Identification:**
+   - Path parameters can be used to identify and retrieve specific resources. For example, in a RESTful API, you might have a URL like `/users/{userId}` to retrieve user information, where `{userId}` is a path parameter that specifies the user's unique identifier.
+
+2. **Data Filtering:**
+   - Path parameters can be used to filter data. For instance, a URL like `/products/category/{categoryName}` can be used to retrieve products belonging to a specific category. Here, `{categoryName}` is a path parameter that filters the data.
+
+3. **Action or Operation:**
+   - Path parameters can specify an action or operation to be performed. For example, `/order/track/{trackingNumber}` might be used to track an order by providing the order's tracking number.
+
+4. **Hierarchical Structures:**
+   - Path parameters are often used in hierarchical structures. In a URL like `/folders/{folderId}/files/{fileId}`, path parameters `{folderId}` and `{fileId}` help navigate a folder structure and identify a specific file.
+
+5. **Versioning:**
+   - Path parameters can be used to specify API versioning. For instance, `/v1/resource` and `/v2/resource` use path parameters (`v1` and `v2`) to denote different API versions.
+
+6. **Pagination:**
+   - Path parameters can be used for pagination. For example, `/items/page/{pageNumber}` might be used to retrieve a specific page of items, where `{pageNumber}` indicates the page number.
+
+7. **Localization:**
+   - Path parameters can be used to specify the language or locale. For instance, `/en/products` and `/fr/products` could serve the same resource in different languages by using path parameters (`en` and `fr`) for localization.
+
+8. **Dynamic Routing:**
+   - Path parameters can be used in routing for dynamic URLs. They allow server applications to interpret and respond to the variable parts of the URL.
+
+Path parameters are a fundamental part of building clean and expressive URLs in web applications and APIs. They make URLs more readable, and they help convey the intent and context of the request. When designing an API or structuring URLs for web applications, it's important to choose meaningful names for path parameters that reflect their purpose and make the API user-friendly.
