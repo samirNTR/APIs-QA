@@ -1,0 +1,60 @@
+
+npm install -g json-server
+json-server --watch student.json
+
+//Status codes
+pm.test("Check the status code", function()
+{
+
+pm.response.to.have.status(200);
+
+
+});
+
+
+pm.test("Check the status codes", ()=>{
+
+pm.expect(pm.response.code).to.be.oneOf([201,202]);
+
+});
+
+pm.test("Check the status codes", ()=>{
+
+pm.response.to.have.status("Created");
+
+});
+
+pm.test("Status code is 201 Created (case insensitive)", function () 
+{
+    pm.response.to.have.status("created", pm.expectItToBeCaseInsensitive=true);
+});
+
+
+pm.test("Status code is 200", function () {
+    if(pm.response.to.have.status(200))
+
+    postman.setNextRequest("Req3");
+});
+
+//Headers
+
+pm.test("Check Headers with Specific Values", function () {
+    // Use pm.response.to.have.header() to check specific headers
+    pm.response.to.have.header("Content-Type");
+    pm.response.to.have.header("Authorization", "Bearer YOUR_TOKEN"); // Replace with the actual token you expect
+});
+
+pm.test("Check Headers with Specific Values", function () {
+    // Get the response headers
+    var responseHeaders = pm.response.headers;
+
+    // Define the expected values for specific headers
+    var expectedContentType = "application/json";
+    var expectedAuthorization = "Bearer YOUR_TOKEN"; // Replace with the actual token you expect
+
+    // Use pm.expect to check specific headers
+    pm.expect(responseHeaders.get("Content-Type")).to.eql(expectedContentType);
+    pm.expect(responseHeaders.get("Authorization")).to.eql(expectedAuthorization);
+});
+
+
