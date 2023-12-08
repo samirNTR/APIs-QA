@@ -155,8 +155,8 @@ public class MyRequests {
 		 System.out.println("Response Body : "+res.getBody().asPrettyString());
 		 
 		 
-		 String pathname= res.path("name");
-		String pathjob=res.path("job");
+		 String pathname= res.jsonPath().get("name");
+		String pathjob=res.jsonPath().get("job");
 	
 		
 		//Header handling

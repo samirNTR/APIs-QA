@@ -1,21 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results ignored="0" total="2" passed="2" failed="0" skipped="0">
+<testng-results ignored="0" total="1" passed="1" failed="0" skipped="0">
   <reporter-output>
   </reporter-output>
-  <suite started-at="2023-11-02T13:18:55 IST" name="Default suite" finished-at="2023-11-02T13:18:58 IST" duration-ms="2513">
+  <suite started-at="2023-12-08T13:01:56 IST" name="Default suite" finished-at="2023-12-08T13:01:59 IST" duration-ms="2746">
     <groups>
     </groups>
-    <test started-at="2023-11-02T13:18:55 IST" name="Default test" finished-at="2023-11-02T13:18:58 IST" duration-ms="2513">
-      <class name="External_json">
-        <test-method signature="testPostusing_ExternalJSONfile()[pri:0, instance:External_json@f0da945]" started-at="2023-11-02T13:18:55 IST" name="testPostusing_ExternalJSONfile" finished-at="2023-11-02T13:18:58 IST" duration-ms="2471" status="PASS">
+    <test started-at="2023-12-08T13:01:56 IST" name="Default test" finished-at="2023-12-08T13:01:59 IST" duration-ms="2746">
+      <class name="MyRequests">
+        <test-method signature="putRequest()[pri:1, instance:MyRequests@2ea41516]" started-at="2023-12-08T13:01:56 IST" name="putRequest" finished-at="2023-12-08T13:01:59 IST" duration-ms="2712" status="PASS">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- testPostusing_ExternalJSONfile -->
-        <test-method signature="testUsingjsonParser()[pri:0, instance:External_json@f0da945]" started-at="2023-11-02T13:18:58 IST" name="testUsingjsonParser" finished-at="2023-11-02T13:18:58 IST" duration-ms="8" status="PASS">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- testUsingjsonParser -->
-      </class> <!-- External_json -->
+        </test-method> <!-- putRequest -->
+      </class> <!-- MyRequests -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

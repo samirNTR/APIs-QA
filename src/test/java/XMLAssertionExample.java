@@ -9,7 +9,8 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 
 public class XMLAssertionExample {
-    public static void main(String[] args) {
+    public static void main(String[] args) 
+    {
         try {
             // Specify the path to your XML file
             String filePath = "D:\\Testing\\ProgramPractice\\ABC.xml";
@@ -21,13 +22,13 @@ public class XMLAssertionExample {
             DocumentBuilder builder = factory.newDocumentBuilder();
 
             // Parse the XML file to create a Document object
-            Document document = builder.parse(filePath);
+            Document document = builder.parse(filePath);       //Interface->Document
 
             // Get the root element of the document
-            Element rootElement = document.getDocumentElement();
+            Element rootElement = document.getDocumentElement();   //Interface->Element
 
             // Get a NodeList of elements with a specific tag name
-            NodeList nodeList = rootElement.getElementsByTagName("Author");
+            NodeList nodeList = rootElement.getElementsByTagName("Author");  //Interface->NodeList
 
             // Assuming there's only one <Author> element, extract its text content
             String authorValue = nodeList.item(0).getTextContent();
@@ -37,7 +38,8 @@ public class XMLAssertionExample {
 
             // If the assertion passes, print a success message
             System.out.println("Assertion passed: Author is James Gosling");
-        } catch (Exception e) {
+        } catch (Exception e) 
+        {
             e.printStackTrace();
         }
     }

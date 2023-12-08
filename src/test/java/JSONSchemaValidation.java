@@ -16,7 +16,10 @@ public class JSONSchemaValidation {
 		     get("https://reqres.in/api/unknown")
 		
 		.then()
-		.assertThat().body(JsonSchemaValidator.matchesJsonSchemaInClasspath("JsonSchema.json"));
+		
+		.assertThat().
+		
+		body(JsonSchemaValidator.matchesJsonSchemaInClasspath("JsonSchema.json"));
 		
 	}
 	
