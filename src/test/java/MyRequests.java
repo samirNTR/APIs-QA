@@ -1,4 +1,4 @@
-import org.json.simple.JSONObject;
+ import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import static org.hamcrest.Matchers.*;
@@ -103,7 +103,7 @@ public class MyRequests {
 
 	}*/
 	
-	//@Test
+	@Test
 	
 	public void deleteRequest()
 	{
@@ -117,13 +117,15 @@ public class MyRequests {
 		
 		then().statusCode(204).log().all();
 		
+		
+		
 		//log.body();
 		
 		//log.cookies();  //log.cookies();
 	}
 	
 	
-	//@Test
+	@Test
 	
 	public void RequestSpecification()
 	{
@@ -138,7 +140,7 @@ public class MyRequests {
 		 
 		 requestjson.put("job", "leader");
 		 
-		 
+	
 
 		 
 		 RequestSpecification reqres= given().contentType("application/json").body(requestjson.toJSONString());
@@ -147,7 +149,8 @@ public class MyRequests {
 		 
 
 		
-		 int statuscode= res.getStatusCode();
+		 int statuscode= res.statusCode();
+		 // int statuscode= res.getstatusCode();
 		 System.out.println("The status code is "+statuscode);
 		 
 		 System.out.println("The status line is "+res.statusLine());

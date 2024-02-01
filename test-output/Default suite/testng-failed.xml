@@ -3,11 +3,11 @@
 <suite name="Failed suite [Default suite]" guice-stage="DEVELOPMENT">
   <test thread-count="5" name="Default test(failed)">
     <classes>
-      <class name="External_json">
+      <class name="ExternalJson2">
         <methods>
-          <include name="testUsingjsonParser"/>
+          <include name="testUsingRestAssured"/>
         </methods>
-      </class> <!-- External_json -->
+      </class> <!-- ExternalJson2 -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

@@ -1,0 +1,42 @@
+{
+  "person": {
+    "id": 123,
+    "name": "Alice",
+    "age": 30,
+    "address": {
+      "street": "123 Main St",
+      "city": "Wonderland",
+      "zipcode": "56789"
+    },
+    "contacts": [
+      {
+        "type": "email",
+        "value": "alice@example.com"
+      },
+      {
+        "type": "phone",
+        "value": "123-456-7890"
+      }
+    ],
+    "education": {
+      "degree": "Master's",
+      "major": "Computer Science",	
+      "university": {
+        "name": "University of Wonderland",
+        "location": "Wonderland"
+      },
+      "graduationYear": 2022
+    },
+    "interests": [
+      "Programming",
+      "Reading",
+      "Traveling"
+    ],
+    "isStudent": false,
+    "grades": {
+      "math": 95,
+      "science": 87,
+      "history": 91
+    }
+  }
+}
