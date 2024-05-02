@@ -2,7 +2,8 @@ import static io.restassured.RestAssured.*;
 
 import org.testng.annotations.Test;
 
-import io.restassured.module.jsv.JsonSchemaValidator;
+import io.restassured.http.ContentType;
+import static io.restassured.module.jsv.JsonSchemaValidator.*;
 import io.restassured.response.Response;
 
 
@@ -20,7 +21,7 @@ public class JSONSchemaValidation {
 		
 		.assertThat().
 		
-		body(JsonSchemaValidator.matchesJsonSchemaInClasspath("JsonSchema.json"));
+		body(matchesJsonSchemaInClasspath("JsonSchema.json"));
 		
 	}
 	
@@ -29,7 +30,7 @@ public class JSONSchemaValidation {
 	public void jsonValidation2()
 	{
 		
-		Response response=given().
+		Response response=given().contentType(ContentType.JSON).
 		
 		when()
 		
@@ -38,7 +39,8 @@ public class JSONSchemaValidation {
 		
 		String jsondata="{ \"data\": [] }";
 		response.then()
-		.assertThat().body(JsonSchemaValidator.matchesJsonSchema(jsondata));
+		.assertThat().
+		body(matchesJsonSchema(jsondata));
 		
 		
 		

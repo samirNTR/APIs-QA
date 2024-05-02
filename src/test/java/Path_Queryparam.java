@@ -13,14 +13,14 @@ import io.restassured.path.json.JsonPath;
 import io.restassured.response.Response;
 import io.restassured.specification.RequestSpecification;
 public class Path_Queryparam {
-	
+
 	
 	@Test
 	
 	public void queryparam()
 	{
 		baseURI="https://reqres.in/";
-		RequestSpecification res=given();
+		RequestSpecification res=given().header("Content-Type" , "application/json").contentType(ContentType.JSON);
 		
 		res.basePath("/api/users");
 		

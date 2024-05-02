@@ -1,17 +1,18 @@
  import org.json.simple.JSONObject;
 import org.testng.Assert;
 import org.testng.annotations.Test;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+
 import static org.hamcrest.Matchers.*;
 
 import java.util.Map;
 
-import javax.xml.parsers.DocumentBuilderFactory;
+
 
 import static io.restassured.RestAssured.*;
 
-import io.restassured.RestAssured;
-import io.restassured.authentication.AuthenticationScheme;
-import io.restassured.authentication.OAuth2Scheme;
+
 import io.restassured.http.ContentType;
 import io.restassured.http.Header;
 import io.restassured.http.Headers;
@@ -24,38 +25,66 @@ public class MyRequests {
 
 	@Test(priority=1)
 
-	public void putRequest() {
-
+	public void putRequest1() {
 		Pojo_class1 data = new Pojo_class1();
+        data.setJob("leader");
+        data.setName("morpheus");
+		 try {
+	            // Use ObjectMapper to convert the POJO to JSON
+	            ObjectMapper objectMapper = new ObjectMapper();
+	            String jsonBody = objectMapper.writeValueAsString(data);
 
-		data.setJob("leader");
-		data.setName("morpheus");
+	            given()
+	                .contentType(ContentType.JSON)
+	                .body(jsonBody)
+	            .when()
+	                .post("https://reqres.in/api/users")
+	            .then()
+	                .statusCode(201)
+	                .body("name", equalTo("morpheus"))
+	                .header("Content-Type", containsString("application/json"))
+	                .body("job", equalTo("leader"))
+	                .log().body();
+	        } catch (Exception e) {
+	            // Handle exceptions
+	            e.printStackTrace();
+	        }
+	    }
+	
+	@Test
+	
+	public void putRequest2()
+	{
+	Pojo_class1 data = new Pojo_class1();
 
-		/*
-		 * JSONObject requestjson= new JSONObject();
-		 * 
-		 * //JSONObject authorjson= new JSONObject();
-		 * 
-		 * requestjson.put("name", "morpheus");
-		 * 
-		 * requestjson.put("job", "leader");
-		 */
-		given()
+	data.setJob("leader");
+	data.setName("morpheus");
 
-		.contentType(ContentType.JSON).body(data).
-    //  contentType("application/json")
-		when()
-		
-		.post("https://reqres.in/api/users").
-		
-		
-		then()
-      .statusCode(201)
-     . body("name", equalTo("morpheus")).
-      header("Content-Type", containsString("application/json")).
+	/*
+	 * JSONObject requestjson= new JSONObject();
+	 * 
+	 * //JSONObject authorjson= new JSONObject();
+	 * 
+	 * requestjson.put("name", "morpheus");
+	 * 
+	 * requestjson.put("job", "leader");
+	 */
+	given()
 
-      body("job", equalTo("leader")).
-      log().body();
+	.contentType(ContentType.JSON).body(data).
+//  contentType("application/json")
+	when()
+	
+	.post("https://reqres.in/api/users").
+	
+	
+	then()
+  .statusCode(201)
+ . body("name", equalTo("morpheus")).
+  header("Content-Type", containsString("application/json")).
+
+  body("job", equalTo("leader")).
+  log().body();
 	}
 		/*
 		 * RequestSpecification reqspec= RestAssured.given().
@@ -195,5 +224,28 @@ public class MyRequests {
 		
 		
 	}
+	
+	@Test
+
+	public void JsonServer()   //Use of JSON-PATH
+	{
+		baseURI = "https://reqres.in/";
+
+		RequestSpecification request = given().contentType(ContentType.JSON);
+
+		Response response = request.get("/api/users?page=2");
+
+		System.out.println("The body is " + response.getBody().asPrettyString());
+
+		JsonPath path = new JsonPath(response.getBody().asPrettyString());
+    
+		//String pathName=path.getString("data");
+		//System.out.println("The extracted path name is " +pathName);
+		String dataType = path.get("data").getClass().getSimpleName();
+		System.out.println("The Data type is :" + dataType);
+		Assert.assertEquals(dataType, "ArrayList", "The 'data' field is not an array.");
+
+	}
+
 
 }
