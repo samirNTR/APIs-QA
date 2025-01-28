@@ -1,0 +1,235 @@
+1. Basic Authentication
+Basic Authentication requires a username and password encoded in the HTTP headers.
+
+java
+Copy
+Edit
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+
+public class BasicAuthExample {
+    public static void main(String[] args) {
+        Response response = RestAssured
+            .given()
+            .auth()
+            .preemptive() // Sends credentials preemptively in the request
+            .basic("username", "password") // Provide username and password
+            .when()
+            .get("https://example.com/protected/resource");
+        
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody().asString());
+    }
+}
+2. Digest Authentication
+Digest Authentication is more secure than basic auth and involves server challenges.
+
+java
+Copy
+Edit
+public class DigestAuthExample {
+    public static void main(String[] args) {
+        Response response = RestAssured
+            .given()
+            .auth()
+            .digest("username", "password") // Use digest authentication
+            .when()
+            .get("https://example.com/protected/resource");
+        
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody().asString());
+    }
+}
+3. Bearer Token Authentication
+Bearer tokens are typically used for OAuth2.
+
+java
+Copy
+Edit
+public class BearerTokenExample {
+    public static void main(String[] args) {
+        Response response = RestAssured
+            .given()
+            .auth()
+            .oauth2("your_bearer_token_here") // Provide the bearer token
+            .when()
+            .get("https://example.com/api/resource");
+        
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody().asString());
+    }
+}
+4. OAuth 1.0 Authentication
+For APIs that require OAuth 1.0 authentication.
+
+java
+Copy
+Edit
+public class OAuth1Example {
+    public static void main(String[] args) {
+        Response response = RestAssured
+            .given()
+            .auth()
+            .oauth("consumerKey", "consumerSecret", "accessToken", "secretToken") // OAuth credentials
+            .when()
+            .get("https://example.com/protected/resource");
+        
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody().asString());
+    }
+}
+5. OAuth 2.0 Authentication
+OAuth 2.0 can be used with bearer tokens (as shown earlier) or by directly obtaining the token.
+
+Example of Obtaining a Token and Using It:
+java
+Copy
+Edit
+public class OAuth2Example {
+    public static void main(String[] args) {
+        // Get the access token
+        String accessToken = RestAssured
+            .given()
+            .formParam("client_id", "your_client_id")
+            .formParam("client_secret", "your_client_secret")
+            .formParam("grant_type", "client_credentials")
+            .post("https://example.com/oauth/token")
+            .jsonPath()
+            .getString("access_token");
+
+        // Use the token in another request
+        Response response = RestAssured
+            .given()
+            .auth()
+            .oauth2(accessToken)
+            .when()
+            .get("https://example.com/api/resource");
+
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody().asString());
+    }
+}
+6. API Key Authentication
+Many APIs require an API key passed in headers, query parameters, or cookies.
+
+Passing API Key in Headers:
+java
+Copy
+Edit
+public class ApiKeyInHeaderExample {
+    public static void main(String[] args) {
+        Response response = RestAssured
+            .given()
+            .header("x-api-key", "your_api_key_here") // Pass API key in header
+            .when()
+            .get("https://example.com/api/resource");
+        
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody().asString());
+    }
+}
+Passing API Key in Query Parameters:
+java
+Copy
+Edit
+public class ApiKeyInQueryExample {
+    public static void main(String[] args) {
+        Response response = RestAssured
+            .given()
+            .queryParam("api_key", "your_api_key_here") // Pass API key as query param
+            .when()
+            .get("https://example.com/api/resource");
+        
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody().asString());
+    }
+}
+7. Cookie-Based Authentication
+Some APIs rely on cookies for session management and authentication.
+
+java
+Copy
+Edit
+public class CookieAuthExample {
+    public static void main(String[] args) {
+        Response response = RestAssured
+            .given()
+            .cookie("session_id", "your_session_id_here") // Provide session cookie
+            .when()
+            .get("https://example.com/api/resource");
+        
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody().asString());
+    }
+}
+8. Form-Based Authentication
+For APIs requiring login via form submissions.
+
+java
+Copy
+Edit
+public class FormAuthExample {
+    public static void main(String[] args) {
+        Response response = RestAssured
+            .given()
+            .auth()
+            .form("username", "password", new FormAuthConfig("/login", "usernameField", "passwordField")) // Customize as needed
+            .when()
+            .get("https://example.com/protected/resource");
+        
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody().asString());
+    }
+}
+9. Custom Authentication
+If none of the standard methods fit, you can manually configure custom headers.
+
+java
+Copy
+Edit
+public class CustomAuthExample {
+    public static void main(String[] args) {
+        Response response = RestAssured
+            .given()
+            .header("Authorization", "CustomAuth your_custom_token") // Custom header
+            .when()
+            .get("https://example.com/api/resource");
+        
+        System.out.println(response.getStatusCode());
+        System.out.println(response.getBody().asString());
+    }
+}
+Summary
+These examples cover most real-world authentication scenarios:
+
+Basic/Digest for simple HTTP authentication.
+OAuth 1.0/2.0 for modern secure APIs.
+API Key, Bearer Token, and Cookies for specific security measures.
+Would you like me to help you set up a complete framework using any of these methods?
+
+
+
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+
+public class BearerTokenExample {
+    public static void main(String[] args) {
+        // Base URI for the API
+        RestAssured.baseURI = "https://example.com/api/resource";
+
+        // Set the Bearer Token
+        String bearerToken = "your_bearer_token_here";
+
+        // Send the GET request with the Bearer Token
+        Response response = RestAssured
+            .given()
+            .header("Authorization", "Bearer " + bearerToken) // Set the Authorization header
+            .when()
+            .get(); // Execute the GET request
+
+        // Print response status and body
+        System.out.println("Status Code: " + response.getStatusCode());
+        System.out.println("Response Body: " + response.getBody().asString());
+    }
+}
