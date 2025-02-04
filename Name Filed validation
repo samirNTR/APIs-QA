@@ -28,3 +28,40 @@ public class APITest {
         }
     }
 }
+
+
+
+
+
+
+------------------OR-----------------------------
+
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.junit.Test;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+
+public class APITest {
+
+    @Test
+    public void testUserAPI() {
+        // Base URI
+        RestAssured.baseURI = "https://api.example.com";
+
+        // Sending GET request and storing the response
+        Response response = 
+            given()
+                .when()
+                .get("/users/1")
+                .then()
+                .statusCode(200) // Validating status code is 200
+                .body("name", notNullValue()) // Validating 'name' field exists
+                .extract().response();
+
+        // Printing the 'name' value
+        String name = response.jsonPath().getString("name");
+        System.out.println("User Name: " + name);
+    }
+}
+
