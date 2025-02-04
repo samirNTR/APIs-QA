@@ -1,0 +1,30 @@
+import io.restassured.RestAssured;
+import io.restassured.response.Response;
+import org.junit.Test;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
+
+public class APITest {
+    @Test
+    public void testUserAPI() {
+        // Base URL
+        RestAssured.baseURI = "https://api.example.com";
+
+        // Make GET request to the endpoint
+        Response response = given()
+                                .when()
+                                .get("/users/1")
+                                .then()
+                                .statusCode(200)  // Validate that the response status code is 200
+                                .extract()
+                                .response();
+
+        // Check if the response contains a 'name' field
+        if (response.jsonPath().getMap("").containsKey("name")) {
+            // Print the 'name' value if it exists
+            System.out.println("Name: " + response.jsonPath().get("name"));
+        } else {
+            System.out.println("'name' field is not present in the response.");
+        }
+    }
+}
