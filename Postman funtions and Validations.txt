@@ -57,4 +57,91 @@ pm.test("Check Headers with Specific Values", function () {
     pm.expect(responseHeaders.get("Authorization")).to.eql(expectedAuthorization);
 });
 
+------------------------Response Body Validations--------------------------------------------------------
+
+// ✅ 1. HTTP Status Code Validation
+pm.test("Status code is 200", function () {
+    pm.response.to.have.status(200);
+});
+
+// ✅ 2. Response Time Validation (Less than 2000ms)
+pm.test("Response time is within 2000ms", function () {
+    pm.expect(pm.response.responseTime).to.be.below(2000);
+});
+
+// ✅ 3. Response Field Validation
+let jsonData = pm.response.json();
+
+pm.test("ID is correct", function () {
+    pm.expect(jsonData.id).to.eql(101);
+});
+
+pm.test("Name is correct", function () {
+    pm.expect(jsonData.name).to.eql("Samir");
+});
+
+pm.test("Role is correct", function () {
+    pm.expect(jsonData.role).to.eql("QA Engineer");
+});
+
+pm.test("Email format is valid", function () {
+    pm.expect(jsonData.email).to.match(/^[A-Za-z0-9+_.-]+@(.+)$/);
+});
+
+pm.test("Status is one of active, inactive, or pending", function () {
+    pm.expect(["active", "inactive", "pending"]).to.include(jsonData.status);
+});
+
+// ✅ 4. Validate Nested JSON Objects
+pm.test("City is Bangalore", function () {
+    pm.expect(jsonData.address.city).to.eql("Bangalore");
+});
+
+pm.test("ZIP code format is valid", function () {
+    pm.expect(jsonData.address.zip).to.match(/^\d{6}$/);
+});
+
+// ✅ 5. Validate Arrays
+pm.test("Skills include Selenium and Java", function () {
+    pm.expect(jsonData.skills).to.include("Selenium");
+    pm.expect(jsonData.skills).to.include("Java");
+});
+
+// ✅ 6. Validate JSON Schema (Optional)
+// Requires JSON schema validator in Postman
+
+// ✅ 7. Validate Object Sizes
+pm.test("Company has at least one department", function () {
+    pm.expect(jsonData.company.departments.length).to.be.above(0);
+});
+
+pm.test("First department name is not null", function () {
+    pm.expect(jsonData.company.departments[0].name).to.not.be.null;
+});
+
+// ✅ 8. Validate Pagination Fields
+pm.test("Total records are 100", function () {
+    pm.expect(jsonData.pagination.totalRecords).to.eql(100);
+});
+
+pm.test("Page size is 10", function () {
+    pm.expect(jsonData.pagination.pageSize).to.eql(10);
+});
+
+pm.test("Current page is 1", function () {
+    pm.expect(jsonData.pagination.currentPage).to.eql(1);
+});
+
+pm.test("Total pages are 10", function () {
+    pm.expect(jsonData.pagination.totalPages).to.eql(10);
+});
+
+// ✅ 9. Validate Headers
+pm.test("Content-Type is application/json", function () {
+    pm.response.to.have.header("Content-Type", "application/json");
+});
+
+pm.test("Cache-Control header exists", function () {
+    pm.response.to.have.header("Cache-Control");
+});
 
