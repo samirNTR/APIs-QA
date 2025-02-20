@@ -1,3 +1,36 @@
+{
+  "id": 101,
+  "name": "Samir",
+  "role": "QA Engineer",
+  "email": "samir@example.com",
+  "status": "active",
+  "address": {
+    "city": "Bangalore",
+    "zip": "560001"
+  },
+  "skills": ["Selenium", "Java", "TestNG"],
+  "company": {
+    "departments": [
+      {
+        "name": "QA Department",
+        "employees": [
+          {
+            "id": 201,
+            "name": "John Doe",
+            "role": "Tester"
+          }
+        ]
+      }
+    ]
+  },
+  "pagination": {
+    "totalRecords": 100,
+    "pageSize": 10,
+    "currentPage": 1,
+    "totalPages": 10
+  }
+}
+
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
 import static io.restassured.RestAssured.*;
