@@ -43,9 +43,7 @@ public class DigestAuthExample {
 3. Bearer Token Authentication
 Bearer tokens are typically used for OAuth2.
 
-java
-Copy
-Edit
+
 public class BearerTokenExample {
     public static void main(String[] args) {
         Response response = RestAssured
@@ -62,9 +60,7 @@ public class BearerTokenExample {
 4. OAuth 1.0 Authentication
 For APIs that require OAuth 1.0 authentication.
 
-java
-Copy
-Edit
+
 public class OAuth1Example {
     public static void main(String[] args) {
         Response response = RestAssured
@@ -78,6 +74,11 @@ public class OAuth1Example {
         System.out.println(response.getBody().asString());
     }
 }
+Consumer Key → Identifies the client application.
+Consumer Secret → A secret known only to the client and server.
+Access Token → Grants permission to access user-specific resources.
+Secret Token → Secret associated with the access token for signing requests
+
 5. OAuth 2.0 Authentication
 OAuth 2.0 can be used with bearer tokens (as shown earlier) or by directly obtaining the token.
 
