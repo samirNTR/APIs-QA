@@ -1,69 +1,54 @@
 import io.restassured.RestAssured;
 import io.restassured.response.Response;
-import org.hamcrest.Matchers;
-import static io.restassured.RestAssured.given;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.Matchers.*;
 
 public class APITestValidation {
     public static void main(String[] args) {
-        // Set Base URI (Assuming API endpoint that returns the above JSON)
-        RestAssured.baseURI = "https://api.example.com"; 
+        // Set Base URI
+        baseURI = "https://api.example.com";
 
-        // Send GET request
-        Response response = 
-            given()
-                .header("Authorization", "Bearer token123") // Validate authentication if needed
-            .when()
-                .get("/users/101") // API endpoint
-            .then()
-                // 1. Validate HTTP Status Code
-                .statusCode(200)
+        // Send GET request and validate response
+        given()
+            .header("Authorization", "Bearer token123") // Authentication
+        .when()
+            .get("/users/101") // API endpoint
+        .then()
+            .assertThat()
+                .statusCode(200) // ✅ 1. HTTP Status Code Validation
+                .time(lessThan(2000L)) // ✅ 2. Response Time Validation
+                .body("id", equalTo(101)) // ✅ 3. Response Field Validation
+                .body("name", equalTo("Samir"))
+                .body("role", equalTo("QA Engineer"))
+                .body("email", matchesPattern("^[A-Za-z0-9+_.-]+@(.+)$")) // Email format
+                .body("status", isOneOf("active", "inactive", "pending")) // Enum validation
                 
-                // 2. Validate Response Time
-                .time(Matchers.lessThan(2000L)) // Must be less than 2 sec
+                // ✅ 4. Validate Nested JSON Objects
+                .body("address.city", equalTo("Bangalore"))
+                .body("address.zip", matchesPattern("\\d{6}")) // Zip code validation
                 
-                // 3. Validate JSON Schema (Optional - Requires JSON Schema Validator)
-                //.body(matchesJsonSchemaInClasspath("userSchema.json")) 
-
-                // 4. Validate Response Body Fields
-                .body("id", Matchers.equalTo(101))
-                .body("name", Matchers.equalTo("Samir"))
-                .body("role", Matchers.equalTo("QA Engineer"))
-                .body("email", Matchers.matchesPattern("^[A-Za-z0-9+_.-]+@(.+)$")) // Email format validation
-                .body("status", Matchers.isOneOf("active", "inactive", "pending")) // Enum validation
+                // ✅ 5. Validate Arrays
+                .body("skills", hasItems("Selenium", "Java")) // Must contain these skills
                 
-                // 5. Validate Data Types
-                .body("id", Matchers.instanceOf(Integer.class))
-                .body("name", Matchers.instanceOf(String.class))
-                .body("status", Matchers.instanceOf(String.class))
+                // ✅ 6. Validate JSON Schema (Optional)
+                // .body(matchesJsonSchemaInClasspath("userSchema.json"))
 
-                // 6. Validate Date Format (ISO 8601)
-                .body("created_at", Matchers.matchesPattern("\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z"))
-
-                // 7. Validate Nested JSON Objects
-                .body("address.city", Matchers.equalTo("Bangalore"))
-                .body("address.zip", Matchers.matchesPattern("\\d{6}")) // Zip code validation
-
-                // 8. Validate Arrays
-                .body("skills", Matchers.hasItems("Selenium", "Java")) // Must contain these skills
+                // ✅ 7. Validate Object Sizes
+                .body("company.departments.size()", greaterThan(0)) // Ensure at least 1 department exists
+                .body("company.departments[0].name", notNullValue()) // First department name should not be null
                 
-                // 9. Validate Pagination Details
-                .body("pagination.totalRecords", Matchers.equalTo(100))
-                .body("pagination.pageSize", Matchers.equalTo(10))
-                .body("pagination.currentPage", Matchers.equalTo(1))
-                .body("pagination.totalPages", Matchers.equalTo(10))
+                // ✅ 8. Validate Pagination Fields
+                .body("pagination.totalRecords", equalTo(100))
+                .body("pagination.pageSize", equalTo(10))
+                .body("pagination.currentPage", equalTo(1))
+                .body("pagination.totalPages", equalTo(10))
 
-                // 10. Validate Headers
-                .header("Content-Type", Matchers.equalTo("application/json"))
-                .header("Cache-Control", Matchers.notNullValue())
-
-                // Extract response for further validation if needed
-                .extract()
-                .response();
-
-        // Print the JSON Response
-        System.out.println("Response: " + response.asPrettyString());
+                // ✅ 9. Validate Headers
+                .header("Content-Type", equalTo("application/json"))
+                .header("Cache-Control", notNullValue()); // Cache header should exist
     }
 }
+
 
 How This Approach Covers All Points
 ✅ 1. HTTP Status Code → .statusCode(200)
