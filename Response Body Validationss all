@@ -61,3 +61,96 @@ How This Approach Covers All Points
 ✅ 8. Array Validation → .hasItems("Selenium", "Java")
 ✅ 9. Pagination Validation → .body("pagination.totalRecords", Matchers.equalTo(100))
 ✅ 10. Header Validation → .header("Content-Type", Matchers.equalTo("application/json"))
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////////------------------------------------///////////////////////////////////
+
+JSON Array Validations:-
+-------------------------
+
+
+{
+  "employees": [
+    {
+      "id": 101,
+      "name": "Samir",
+      "role": "QA Engineer"
+    },
+    {
+      "id": 102,
+      "name": "Rashmi",
+      "role": "Developer"
+    },
+    {
+      "id": 103,
+      "name": "Violet",
+      "role": "Manager"
+    },
+    {
+      "id": 104,
+      "name": "Amit",
+      "role": "QA Engineer"
+    }
+  ]
+}
+
+
+
+import io.restassured.path.json.JsonPath;
+import io.restassured.response.Response;
+import static io.restassured.RestAssured.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
+
+import java.util.List;
+import java.util.Map;
+
+public class JSONArrayIterationJsonPath {
+    public static void main(String[] args) {
+        Response response = given()
+                .when()
+                .get("/employees")
+                .then()
+                .extract()
+                .response();
+
+        // Extract JSON response using RestAssured's JsonPath
+        JsonPath jsonPath = response.jsonPath();
+        List<Map<String, Object>> employees = jsonPath.getList("employees");
+
+        // Iterate using forEach loop
+        for (Map<String, Object> employee : employees) {
+            int id = (int) employee.get("id");
+            String name = (String) employee.get("name");
+            String role = (String) employee.get("role");
+
+            // Perform validations using Hamcrest
+            assertThat(id, greaterThan(0));
+            assertThat(name, not(emptyOrNullString()));
+            assertThat(role, isOneOf("QA Engineer", "Developer", "Manager"));
+
+            System.out.println("Validated Employee - ID: " + id + ", Name: " + name + ", Role: " + role);
+        }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
